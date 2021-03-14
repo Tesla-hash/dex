@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  ton:
+    image: tonlabs/local-node
+    environment:
+      - USER_AGREEMENT=yes
+    ports:
+      - "80:80"
+  compiler:
+    image: tonlabs/compilers
+    tty: true
+    volumes:
+      - ./:/var/www/
+    working_dir: /var/www
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    environment:
+      - TON_NODE=http://ton
+    volumes:
+      - ./:/var/www/
+    working_dir: /var/www
+    ports:
+      - 3300:3300
+      - 9229:9229
+
